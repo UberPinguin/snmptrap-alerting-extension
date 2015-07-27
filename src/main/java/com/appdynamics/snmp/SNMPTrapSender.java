@@ -407,7 +407,6 @@ public class SNMPTrapSender extends CustomNotification
         }
 
         MPv3 mpv3 = new MPv3(defaultEngineId);
-        logInfo("LOCAL ENGINE ID ::" + mpv3.getLocalEngineID());
 
         USM usm = new USM
                 (
