@@ -1,6 +1,0 @@
-<custom-actions>
-	<action>
-		<type>SNMPTrapAlertingExtension</type>
-		<executable>snmpTrapSender.sh</executable>
-	</action>
-</custom-actions>

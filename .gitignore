@@ -1,11 +1,11 @@
-*.class
+target
+*.iml
+.settings
+.classpath
+.project
+*.log
+*.ipr
+*.iws
+.idea
+.DS_Store
 
-# Package Files #
-*.war
-*.ear
-.ant_targets
-.idea/
-build/
-dist/
-src/main/main.iml
-tmp/
