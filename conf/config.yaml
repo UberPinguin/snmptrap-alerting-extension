@@ -42,13 +42,13 @@ mibVersion:
 snmpVersion:
 
 #Only required if snmp-version set to 3
-snmpV3Configuration:
- securityLevel:
- username: ""
- password: ""
- authProtocol: ""
- privProtocol: ""
- privProtocolPassword: ""
+#snmpV3Configuration:
+# securityLevel:
+# username: ""
+# password: ""
+# authProtocol: ""
+# privProtocol: ""
+# privProtocolPassword: ""
 
 ######SNMP Trap information end##############
 
