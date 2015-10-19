@@ -32,7 +32,7 @@ public class Lookup
             "application",
             "triggeredBy",
             "nodes",
-            "BTs",
+            "txns",
             "machines",
             "tiers",
             "eventTime",

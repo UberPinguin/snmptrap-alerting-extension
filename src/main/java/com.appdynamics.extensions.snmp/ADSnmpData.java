@@ -10,7 +10,7 @@ public class ADSnmpData
     String application;
     String triggeredBy;
     String nodes;
-    String BTs = "";
+    String txns = "";
     String machines;
     String tiers;
     String eventTime;
@@ -49,12 +49,12 @@ public class ADSnmpData
         this.nodes = nodes;
     }
 
-    public String getBTs() {
-        return BTs;
+    public String getTxns() {
+        return txns;
     }
 
-    public void setBTs(String BTs) {
-        this.BTs = BTs;
+    public void setTxns(String txns) {
+        this.txns = txns;
     }
 
     public String getMachines() {
@@ -159,7 +159,7 @@ public class ADSnmpData
                 "application='" + application + '\'' +
                 ", triggeredBy='" + triggeredBy + '\'' +
                 ", nodes='" + nodes + '\'' +
-                ", BTs='" + BTs + '\'' +
+                ", txns='" + txns + '\'' +
                 ", machines='" + machines + '\'' +
                 ", tiers='" + tiers + '\'' +
                 ", eventTime='" + eventTime + '\'' +

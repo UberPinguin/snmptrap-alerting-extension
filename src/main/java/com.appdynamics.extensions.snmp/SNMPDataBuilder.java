@@ -18,7 +18,7 @@ public class SNMPDataBuilder {
         snmpData.setApplication(violationEvent.getAppName());
         snmpData.setTriggeredBy(violationEvent.getHealthRuleName());
         snmpData.setNodes(getNodes(violationEvent));
-        snmpData.setBTs(getBTs(violationEvent));
+        snmpData.setTxns(getBTs(violationEvent));
         snmpData.setMachines(getNodes(violationEvent));
         snmpData.setTiers(getTiers(violationEvent));
         snmpData.setEventTime(violationEvent.getPvnAlertTime());
@@ -42,7 +42,7 @@ public class SNMPDataBuilder {
         snmpData.setApplication(otherEvent.getAppName());
         snmpData.setTriggeredBy(otherEvent.getEventNotificationName());
         snmpData.setNodes(" ");
-        snmpData.setBTs(" ");
+        snmpData.setTxns(" ");
         snmpData.setMachines(" ");
         snmpData.setTiers(" ");
         snmpData.setEventTime(otherEvent.getEventNotificationTime());
