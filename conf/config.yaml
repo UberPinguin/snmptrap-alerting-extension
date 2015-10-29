@@ -6,7 +6,7 @@ receivers:
      port:
 
 #community level
-community: ""
+community: "PUBLIC"
 
 #descriptive name of the snmp trap sender | host name or ip address are commonly used
 senderHost: ""
@@ -34,10 +34,10 @@ senderHost: ""
 #1.3.6.1.4.1.40684.1.1.1.500.10| Policy Continues Warning
 #1.3.6.1.4.1.40684.1.1.1.500.11 | Policy Continues Critical
 ###################################################################################### -->
-mibVersion:
+mibVersion: 2
 
 #snmp version used to send the trap to the receiver | 1:2:3
-snmpVersion:
+snmpVersion: 2
 
 #Only required if snmp-version set to 3
 #snmpV3Configuration:
