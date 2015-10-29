@@ -47,9 +47,9 @@ public class ConfigLoader {
     }
 
     private static void decryptPasswords(Configuration config) {
-        if(!Strings.isNullOrEmpty(config.getEncryptedControllerPassword())){
-            Map<String,String> taskArgs = createTaskArgs(config.getEncryptionKey(),config.getEncryptedControllerPassword());
-            config.setControllerPassword(CryptoUtil.getPassword(taskArgs));
+        if(config.getController() != null && !Strings.isNullOrEmpty(config.getController().getEncryptedPassword())){
+            Map<String,String> taskArgs = createTaskArgs(config.getEncryptionKey(),config.getController().getEncryptedPassword());
+            config.getController().setEncryptedPassword(CryptoUtil.getPassword(taskArgs));
         }
         if(!Strings.isNullOrEmpty(config.getSnmpV3Configuration().getEncryptedPassword())){
             Map<String,String> taskArgs = createTaskArgs(config.getEncryptionKey(),config.getSnmpV3Configuration().getEncryptedPassword());

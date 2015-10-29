@@ -2,14 +2,19 @@ package com.appdynamics.extensions.snmp;
 
 
 import com.appdynamics.extensions.alerts.customevents.*;
+import com.appdynamics.extensions.snmp.api.*;
 import com.appdynamics.extensions.snmp.config.Configuration;
+import com.appdynamics.extensions.snmp.config.ControllerConfig;
 import com.google.common.base.Strings;
 import org.apache.log4j.Logger;
+
+import java.util.List;
 
 public class SNMPDataBuilder {
 
     private static Logger logger = Logger.getLogger(SNMPDataBuilder.class);
 
+    IService service = new ServiceImpl();
 
 
 
@@ -26,15 +31,36 @@ public class SNMPDataBuilder {
         snmpData.setType(violationEvent.getAffectedEntityType());
         snmpData.setSubtype(" ");
         snmpData.setSummary(violationEvent.getSummaryMessage());
-        snmpData.setLink(getAlertUrl(config.getControllerHost(), Integer.toString(config.getControllerPort()), violationEvent));
+        if(config.getController() != null) {
+            snmpData.setLink(getAlertUrl(config.getController().getHost(), Integer.toString(config.getController().getPort()), violationEvent));
+        }
         snmpData.setTag(violationEvent.getTag());
         snmpData.setEventType(violationEvent.getEventType());
         snmpData.setIncidentId(violationEvent.getIncidentID());
         snmpData.setIpAddresses(" ");
+        //for BTs, when the health rule is configured to be triggered when the condition fails on
+        // avergae number of nodes in the tier, the controller doesn't pass tier name but just the application name.
+        //In such cases, tier name needs to be pulled from API.
+        if(Strings.isNullOrEmpty(snmpData.getTiers())){
+            snmpData.setTiers(getTiersFromBTApi(violationEvent, config.getController()));
+        }
         return snmpData;
     }
 
-
+    private String getTiersFromBTApi(HealthRuleViolationEvent violationEvent, ControllerConfig controller) {
+        if(isAffectedEntityType(violationEvent,"BUSINESS_TRANSACTION") && controller != null){
+            ServiceBuilder serviceBuilder = new ServiceBuilder(controller.isUseSsl(),controller.getUserAccount(),controller.getPassword(),controller.getConnectTimeoutInSeconds() * 1000,controller.getSocketTimeoutInSeconds() * 1000);
+            EndpointBuilder endpointBuilder = new EndpointBuilder();
+            String endpoint = endpointBuilder.buildBTsEndpoint(controller,Integer.parseInt(violationEvent.getAppID()));
+            List<BusinessTransaction> bts = service.getBTs(serviceBuilder,endpoint);
+            for(BusinessTransaction bt : bts){
+                if(bt.getId() == Integer.parseInt(violationEvent.getAffectedEntityID())){
+                    return bt.getTierName();
+                }
+            }
+        }
+        return "";
+    }
 
 
     public ADSnmpData buildFromOtherEvent(OtherEvent otherEvent,Configuration config){
@@ -50,7 +76,9 @@ public class SNMPDataBuilder {
         snmpData.setType(getTypes(otherEvent));
         snmpData.setSubtype(" ");
         snmpData.setSummary(getSummary(otherEvent));
-        snmpData.setLink(getAlertUrl(config.getControllerHost(), Integer.toString(config.getControllerPort()), otherEvent));
+        if(config.getController() != null) {
+            snmpData.setLink(getAlertUrl(config.getController().getHost(), Integer.toString(config.getController().getPort()), otherEvent));
+        }
         snmpData.setTag(otherEvent.getTag());
         snmpData.setEventType("NON-POLICY-EVENT");
         snmpData.setIncidentId(otherEvent.getEventNotificationId());

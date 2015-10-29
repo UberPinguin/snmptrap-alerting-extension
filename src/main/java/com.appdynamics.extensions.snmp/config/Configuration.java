@@ -13,16 +13,11 @@ public class Configuration {
     private int mibVersion = DEFAULT_MIB_VERSION;
     private int snmpVersion = DEFAULT_SNMP_VERSION;
     private SnmpV3Configuration snmpV3Configuration;
-
-    private String controllerHost;
-    private int controllerPort;
-    private String controllerUsername;
-    private String controllerPassword;
-    private String encryptedControllerPassword;
     private String encryptionKey;
-
     private String accountName;
     private boolean isMultiTenant;
+    private ControllerConfig controller;
+
 
     public Receiver[] getReceivers() {
         return receivers;
@@ -72,38 +67,6 @@ public class Configuration {
         this.snmpV3Configuration = snmpV3Configuration;
     }
 
-    public String getControllerHost() {
-        return controllerHost;
-    }
-
-    public void setControllerHost(String controllerHost) {
-        this.controllerHost = controllerHost;
-    }
-
-    public int getControllerPort() {
-        return controllerPort;
-    }
-
-    public void setControllerPort(int controllerPort) {
-        this.controllerPort = controllerPort;
-    }
-
-    public String getControllerUsername() {
-        return controllerUsername;
-    }
-
-    public void setControllerUsername(String controllerUsername) {
-        this.controllerUsername = controllerUsername;
-    }
-
-    public String getControllerPassword() {
-        return controllerPassword;
-    }
-
-    public void setControllerPassword(String controllerPassword) {
-        this.controllerPassword = controllerPassword;
-    }
-
     public String getAccountName() {
         return accountName;
     }
@@ -120,21 +83,20 @@ public class Configuration {
         this.isMultiTenant = isMultiTenant;
     }
 
-    public String getEncryptedControllerPassword() {
-        return encryptedControllerPassword;
-    }
-
-    public void setEncryptedControllerPassword(String encryptedControllerPassword) {
-        this.encryptedControllerPassword = encryptedControllerPassword;
-    }
-
-
     public String getEncryptionKey() {
         return encryptionKey;
     }
 
     public void setEncryptionKey(String encryptionKey) {
         this.encryptionKey = encryptionKey;
+    }
+
+    public ControllerConfig getController() {
+        return controller;
+    }
+
+    public void setController(ControllerConfig controller) {
+        this.controller = controller;
     }
 
     @Override
@@ -146,9 +108,7 @@ public class Configuration {
                 ", mibVersion=" + mibVersion +
                 ", snmpVersion=" + snmpVersion +
                 ", snmpV3Configuration=" + snmpV3Configuration +
-                ", controllerHost='" + controllerHost + '\'' +
-                ", controllerPort=" + controllerPort +
-                ", controllerUsername='" + controllerUsername + '\'' +
+                ", controller=" + controller +
                 '}';
     }
 }

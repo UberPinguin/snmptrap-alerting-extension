@@ -109,13 +109,19 @@ to resolve performance degradation issues. This tool sends all the events in App
 
 
 					######AppD information start##################
-					#controller host
-					controllerHost: ""
+                    controller:
+                      host: ""
+                      port:
+                      useSsl: true
+                      userAccount: ""
+                      password: ""
+                      #encryptedPassword: ""
+                      connectTimeoutInSeconds: 10
+                      socketTimeoutInSeconds: 10
 
-					#controller port
-					controllerPort: ""
 
-					######AppD information end#################
+
+                    ######AppD information end#################
 	         ```
 
   Some things to note about the config.yaml file
