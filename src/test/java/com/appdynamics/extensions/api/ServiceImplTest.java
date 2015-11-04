@@ -12,7 +12,7 @@ public class ServiceImplTest {
 
     IService service = new ServiceImpl();
 
-    @Test
+    /*@Test
     public void testForValidBTEndpointCall(){
         ControllerConfig controller = new ControllerConfig();
         controller.setUseSsl(false);
@@ -27,5 +27,5 @@ public class ServiceImplTest {
         List<BusinessTransaction> bts = service.getBTs(serviceBuilder,endpoint);
         Assert.assertNotNull(bts);
 
-    }
+    }*/
 }

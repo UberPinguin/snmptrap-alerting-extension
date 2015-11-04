@@ -35,7 +35,7 @@ public class ConfigLoader {
 
     private static boolean validateEncryptionFields(Configuration config) {
         if(config.getSnmpV3Configuration() != null) {
-            if (!Strings.isNullOrEmpty(config.getSnmpV3Configuration().getEncryptedPrivProtocolPassword()) || !Strings.isNullOrEmpty(config.getSnmpV3Configuration().getEncryptedPassword())) {
+            if (!Strings.isNullOrEmpty(config.getSnmpV3Configuration().getEncryptedPrivProtocolPassword()) || !Strings.isNullOrEmpty(config.getSnmpV3Configuration().getEncryptedPassword()) || !Strings.isNullOrEmpty(config.getController().getEncryptedPassword())) {
                 if (!Strings.isNullOrEmpty(config.getEncryptionKey())) {
                     return true;
                 }
@@ -49,7 +49,7 @@ public class ConfigLoader {
     private static void decryptPasswords(Configuration config) {
         if(config.getController() != null && !Strings.isNullOrEmpty(config.getController().getEncryptedPassword())){
             Map<String,String> taskArgs = createTaskArgs(config.getEncryptionKey(),config.getController().getEncryptedPassword());
-            config.getController().setEncryptedPassword(CryptoUtil.getPassword(taskArgs));
+            config.getController().setPassword(CryptoUtil.getPassword(taskArgs));
         }
         if(!Strings.isNullOrEmpty(config.getSnmpV3Configuration().getEncryptedPassword())){
             Map<String,String> taskArgs = createTaskArgs(config.getEncryptionKey(),config.getSnmpV3Configuration().getEncryptedPassword());
@@ -57,7 +57,7 @@ public class ConfigLoader {
         }
         if(!Strings.isNullOrEmpty(config.getSnmpV3Configuration().getEncryptedPrivProtocolPassword())){
             Map<String,String> taskArgs = createTaskArgs(config.getEncryptionKey(),config.getSnmpV3Configuration().getEncryptedPrivProtocolPassword());
-            config.getSnmpV3Configuration().setEncryptedPrivProtocolPassword(CryptoUtil.getPassword(taskArgs));
+            config.getSnmpV3Configuration().setPrivProtocolPassword(CryptoUtil.getPassword(taskArgs));
         }
 
     }
