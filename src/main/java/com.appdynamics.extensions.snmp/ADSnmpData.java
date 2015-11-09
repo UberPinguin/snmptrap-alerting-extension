@@ -3,7 +3,7 @@
 package com.appdynamics.extensions.snmp;
 
 /**
- * SNMP Data Object
+ * SNMP Data Object 
  */
 public class ADSnmpData
 {
