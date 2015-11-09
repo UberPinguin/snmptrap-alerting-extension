@@ -34,15 +34,10 @@ public class ConfigLoader {
     }
 
     private static boolean validateEncryptionFields(Configuration config) {
-        if(config.getSnmpV3Configuration() != null) {
-            if (!Strings.isNullOrEmpty(config.getSnmpV3Configuration().getEncryptedPrivProtocolPassword()) || !Strings.isNullOrEmpty(config.getSnmpV3Configuration().getEncryptedPassword()) || !Strings.isNullOrEmpty(config.getController().getEncryptedPassword())) {
-                if (!Strings.isNullOrEmpty(config.getEncryptionKey())) {
-                    return true;
-                }
-                logger.error("Cannot find encryptionKey in the config");
-                return false;
-            }
+        if (!Strings.isNullOrEmpty(config.getEncryptionKey())) {
+            return true;
         }
+        logger.error("Cannot find encryptionKey in the config");
         return false;
     }
 
@@ -51,15 +46,16 @@ public class ConfigLoader {
             Map<String,String> taskArgs = createTaskArgs(config.getEncryptionKey(),config.getController().getEncryptedPassword());
             config.getController().setPassword(CryptoUtil.getPassword(taskArgs));
         }
-        if(!Strings.isNullOrEmpty(config.getSnmpV3Configuration().getEncryptedPassword())){
-            Map<String,String> taskArgs = createTaskArgs(config.getEncryptionKey(),config.getSnmpV3Configuration().getEncryptedPassword());
-            config.getSnmpV3Configuration().setPassword(CryptoUtil.getPassword(taskArgs));
+        if(config.getSnmpV3Configuration() != null) {
+            if (!Strings.isNullOrEmpty(config.getSnmpV3Configuration().getEncryptedPassword())) {
+                Map<String, String> taskArgs = createTaskArgs(config.getEncryptionKey(), config.getSnmpV3Configuration().getEncryptedPassword());
+                config.getSnmpV3Configuration().setPassword(CryptoUtil.getPassword(taskArgs));
+            }
+            if (!Strings.isNullOrEmpty(config.getSnmpV3Configuration().getEncryptedPrivProtocolPassword())) {
+                Map<String, String> taskArgs = createTaskArgs(config.getEncryptionKey(), config.getSnmpV3Configuration().getEncryptedPrivProtocolPassword());
+                config.getSnmpV3Configuration().setPrivProtocolPassword(CryptoUtil.getPassword(taskArgs));
+            }
         }
-        if(!Strings.isNullOrEmpty(config.getSnmpV3Configuration().getEncryptedPrivProtocolPassword())){
-            Map<String,String> taskArgs = createTaskArgs(config.getEncryptionKey(),config.getSnmpV3Configuration().getEncryptedPrivProtocolPassword());
-            config.getSnmpV3Configuration().setPrivProtocolPassword(CryptoUtil.getPassword(taskArgs));
-        }
-
     }
 
     private static Map<String,String> createTaskArgs(String encryptionKey, String password) {

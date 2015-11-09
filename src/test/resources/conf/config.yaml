@@ -50,16 +50,16 @@ snmpVersion: 2
 
 ######SNMP Trap information end##############
 
-
+encryptionKey: "helloWorld"
 
 ######AppD information start##################
 controller:
   host: "mywindows.appdynamics.com"
   port: 8090
   useSsl: true
-  userAccount: "appdynamics"
-  password: "appdynamics"
-  #encryptedPassword: ""
+  userAccount: "kunal@customer1"
+  #password: "appdynamics"
+  encryptedPassword: "jVuK3ykD21GaWp9oNrWE9Q=="
   connectTimeoutInSeconds: 50
   socketTimeoutInSeconds: 10
 
