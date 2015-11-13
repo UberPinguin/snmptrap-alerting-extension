@@ -14,10 +14,11 @@ public class ServiceImpl implements IService {
     private static Logger logger = Logger.getLogger(ServiceImpl.class);
 
     @Override
-    public List<BusinessTransaction> getBTs(ServiceBuilder serviceBuilder, String endpoint) throws ServiceException {
+    public List<BusinessTransaction> getBTs(HttpClientBuilder httpClientBuilder, String endpoint) throws ServiceException {
         logger.debug("getBTs :: building http client");
+        SimpleHttpClient simpleHttpClient = null;
         try {
-            SimpleHttpClient simpleHttpClient = serviceBuilder.buildHttpClient(BusinessTransactionWrapper.class);
+            simpleHttpClient = httpClientBuilder.buildHttpClient(BusinessTransactionWrapper.class);
             logger.debug("getBTs :: target url" + endpoint);
             Response response = simpleHttpClient.target(endpoint).get();
             BusinessTransactionWrapper btWrapper = null;
@@ -33,6 +34,37 @@ public class ServiceImpl implements IService {
             String msg = "getBTs :: unable to get applications for " + endpoint;
             logger.error(msg,e);
             throw new ServiceException(msg,e);
+        }
+        finally{
+            simpleHttpClient.close();
+        }
+        return Lists.newArrayList();
+    }
+
+    @Override
+    public List<Node> getNodes(HttpClientBuilder httpClientBuilder, String endpoint) throws ServiceException {
+        logger.debug("getNodes :: building http client");
+        SimpleHttpClient simpleHttpClient = null;
+        try {
+            simpleHttpClient = httpClientBuilder.buildHttpClient(NodeWrapper.class);
+            logger.debug("getNodes :: target url" + endpoint);
+            Response response = simpleHttpClient.target(endpoint).get();
+            NodeWrapper nodeWrapper = null;
+            if (response != null && response.getStatus() == HttpURLConnection.HTTP_OK) {
+                nodeWrapper = response.xml(NodeWrapper.class);
+                if (nodeWrapper != null && nodeWrapper.getNodes()!= null) {
+                    logger.debug("getNodes :: returning successfully");
+                    return nodeWrapper.getNodes();
+                }
+            }
+        }
+        catch(Exception e){
+            String msg = "getNodes :: unable to get nodes for " + endpoint;
+            logger.error(msg,e);
+            throw new ServiceException(msg,e);
+        }
+        finally{
+            simpleHttpClient.close();
         }
         return Lists.newArrayList();
     }

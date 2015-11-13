@@ -31,9 +31,6 @@ public class SnmpTrapAlertExtension {
     //To create the AppDynamics Health Rule Violation event
     private static final EventBuilder eventBuilder = new EventBuilder();
 
-    //mapper to map to snmp data
-    private static final SNMPDataBuilder snmpDataBuilder = new SNMPDataBuilder();
-
     private static final SNMPSender snmpSender = new SNMPSender();
 
     private Configuration config;
@@ -100,13 +97,15 @@ public class SnmpTrapAlertExtension {
 
     private ADSnmpData createSNMPData(Event event) {
         ADSnmpData adSnmpData = null;
+        //mapper to map to snmp data
+        final SNMPDataBuilder snmpDataBuilder = new SNMPDataBuilder(config);
         if(event instanceof HealthRuleViolationEvent) {
             HealthRuleViolationEvent violationEvent = (HealthRuleViolationEvent) event;
-            adSnmpData = snmpDataBuilder.buildFromHealthRuleViolationEvent(violationEvent, config);
+            adSnmpData = snmpDataBuilder.buildFromHealthRuleViolationEvent(violationEvent);
         }
         else{
             OtherEvent otherEvent = (OtherEvent) event;
-            adSnmpData = snmpDataBuilder.buildFromOtherEvent(otherEvent, config);
+            adSnmpData = snmpDataBuilder.buildFromOtherEvent(otherEvent);
         }
         return adSnmpData;
     }

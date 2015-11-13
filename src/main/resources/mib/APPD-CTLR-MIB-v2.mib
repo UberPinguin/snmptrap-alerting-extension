@@ -75,7 +75,8 @@ appdEventObjects OBJECT-GROUP
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Event attributes"
@@ -102,7 +103,8 @@ policyOpen NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Policy Open Notification"
@@ -126,7 +128,8 @@ policyClosed NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Policy Closed Notification"
@@ -151,7 +154,8 @@ nonPolicyEvent NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Informational Event Notification"
@@ -314,5 +318,14 @@ incidentId OBJECT-TYPE
                 "The unique ID for the health rule violation"
         -- 1.3.6.1.4.1.40684.1.1.1.1.16
         ::= { eventData 16 }
+
+accountId OBJECT-TYPE
+        SYNTAX  DisplayString (SIZE (0..255))
+        MAX-ACCESS accessible-for-notify
+        STATUS  current
+        DESCRIPTION
+                "The accountId for the health rule violation. Useful for multi-tier host"
+        -- 1.3.6.1.4.1.40684.1.1.1.1.17
+        ::= { eventData 17 }
 
 END

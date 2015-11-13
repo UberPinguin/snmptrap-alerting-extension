@@ -83,7 +83,8 @@ appdEventObjects OBJECT-GROUP
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Event attributes"
@@ -110,7 +111,8 @@ policyOpenWarning NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Policy Open Warning Notification"
@@ -134,7 +136,8 @@ policyOpenCritical NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Policy Open Critical Notification"
@@ -158,7 +161,8 @@ policyUpgraded NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Policy Upgraded Notification"
@@ -182,7 +186,8 @@ policyDowngraded NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Policy Downgraded Notification"
@@ -206,7 +211,9 @@ policyClosedWarning NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId
+                 }
 	STATUS  current
 	DESCRIPTION
 		"Policy Closed Notification"
@@ -231,7 +238,8 @@ policyClosedCritical NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Policy Closed Notification"
@@ -255,7 +263,8 @@ nonPolicyEvent NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Informational Event Notification"
@@ -279,7 +288,8 @@ policyCancelledWarning NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Policy Cancelled Warning Notification"
@@ -303,7 +313,8 @@ policyCancelledCritical NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Policy Cancelled Critical Notification"
@@ -327,7 +338,9 @@ policyContinuesWarning NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId
+                 }
 	STATUS  current
 	DESCRIPTION
 		"Policy Continues Warning Notification"
@@ -351,7 +364,8 @@ policyContinuesCritical NOTIFICATION-TYPE
 		tag,
                 eventType,
                 ipAddresses,
-                incidentId }
+                incidentId,
+                 accountId}
 	STATUS  current
 	DESCRIPTION
 		"Policy Continues Critical Notification"
@@ -516,4 +530,12 @@ incidentId OBJECT-TYPE
         -- 1.3.6.1.4.1.40684.1.1.1.1.16
         ::= { eventData 16 }
 
+accountId OBJECT-TYPE
+        SYNTAX  DisplayString (SIZE (0..255))
+        MAX-ACCESS accessible-for-notify
+        STATUS  current
+        DESCRIPTION
+                "The accountId for the health rule violation. Useful for multi-tier host"
+        -- 1.3.6.1.4.1.40684.1.1.1.1.17
+        ::= { eventData 17 }
 END

@@ -7,14 +7,14 @@ import com.appdynamics.extensions.http.SimpleHttpClient;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServiceBuilder {
+public class HttpClientBuilder {
     private boolean isSSLEnabled;
     private String userAccount;
     private String password;
     private int connectTimeout = 10;
     private int socketTimeout = 10;
 
-    public ServiceBuilder(boolean isSSLEnabled,String userAccount,String password,int connectTimeout,int socketTimeout){
+    public HttpClientBuilder(boolean isSSLEnabled, String userAccount, String password, int connectTimeout, int socketTimeout){
         this.isSSLEnabled = isSSLEnabled;
         this.userAccount = userAccount;
         this.password = password;
@@ -45,4 +45,5 @@ public class ServiceBuilder {
     public boolean isSSLEnabled() {
         return isSSLEnabled;
     }
+
 }

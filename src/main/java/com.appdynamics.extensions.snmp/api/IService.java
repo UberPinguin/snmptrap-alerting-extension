@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface IService {
 
-    List<BusinessTransaction> getBTs(ServiceBuilder serviceBuilder, String endpoint) throws ServiceException;
+    List<BusinessTransaction> getBTs(HttpClientBuilder httpClientBuilder, String endpoint) throws ServiceException;
+
+    List<Node> getNodes(HttpClientBuilder httpClientBuilder, String endpoint) throws ServiceException;
 
 }

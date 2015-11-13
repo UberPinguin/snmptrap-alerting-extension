@@ -3,7 +3,7 @@
 package com.appdynamics.extensions.snmp;
 
 /**
- * SNMP Data Object 
+ * SNMP Data Object
  */
 public class ADSnmpData
 {
@@ -23,6 +23,7 @@ public class ADSnmpData
     String eventType;
     String ipAddresses;
     String incidentId;
+    String accountId;
 
 
     public String getApplication() {
@@ -153,6 +154,14 @@ public class ADSnmpData
         this.incidentId = incidentId;
     }
 
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
     @Override
     public String toString() {
         return "ADSnmpData{" +
@@ -172,6 +181,7 @@ public class ADSnmpData
                 ", eventType='" + eventType + '\'' +
                 ", ipAddresses='" + ipAddresses + '\'' +
                 ", incidentId='" + incidentId + '\'' +
+                ", accountId='" + accountId + '\'' +
                 '}';
     }
 }

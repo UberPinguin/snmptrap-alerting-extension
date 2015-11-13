@@ -1,4 +1,6 @@
 ######SNMP Trap information start##############
+
+###Multiple receivers can be configured. Below configuration will be common to all receivers.
 receivers:
      #host name or ip address of the snmp trap receiver
    - host: ""
@@ -20,8 +22,9 @@ senderHost: ""
 #APPD-CTLR-MIB-v2.mib | 3 OID's emitted
 #1.3.6.1.4.1.40684.1.1.1.500.1 | Policy Open Notification
 #1.3.6.1.4.1.40684.1.1.1.500.2 | Policy Closed Notification
+#1.3.6.1.4.1.40684.1.1.1.500.3 | nonPolicyEvent Notification
 ###################################################################################### -->
-#APPD-CTLR-MIB-v3.mib | 6 OID's emitted
+#APPD-CTLR-MIB-v3.mib | 11 OID's emitted
 #1.3.6.1.4.1.40684.1.1.1.500.1| Policy Open Warning Notification
 #1.3.6.1.4.1.40684.1.1.1.500.2| Policy Open Critical Notification
 #1.3.6.1.4.1.40684.1.1.1.500.3| Policy Open Upgraded Notification
@@ -36,10 +39,13 @@ senderHost: ""
 ###################################################################################### -->
 mibVersion: 2
 
-#snmp version used to send the trap to the receiver | 1:2:3
+#snmp version used to send the trap to the receiver | Possible values = 1 or 2 or 3
 snmpVersion: 2
 
-#Only required if snmp-version set to 3
+#####################################################################################
+#Uncomment the below lines only if snmpVersion=3. The below lines will configure the auth level
+#policies for snmp v3.
+#####################################################################################
 #snmpV3Configuration:
 # securityLevel:
 # username: ""
@@ -53,15 +59,14 @@ snmpVersion: 2
 
 
 ######AppD information start##################
+#The controller information below is MANDATORY.
 controller:
   host: ""
   port:
   useSsl: true
   userAccount: ""
   password: ""
-  #encryptedPassword: ""
-  connectTimeoutInSeconds: 10
-  socketTimeoutInSeconds: 10
+
 
 
 

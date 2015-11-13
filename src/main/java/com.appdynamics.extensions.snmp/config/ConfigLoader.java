@@ -37,7 +37,6 @@ public class ConfigLoader {
         if (!Strings.isNullOrEmpty(config.getEncryptionKey())) {
             return true;
         }
-        logger.error("Cannot find encryptionKey in the config");
         return false;
     }
 
