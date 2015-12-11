@@ -20,13 +20,13 @@ public class ConfigLoader {
     public static final String SNMP_ENGINE_PROPERTIES = "snmp_engine.properties";
     private static Logger logger = Logger.getLogger(ConfigLoader.class);
 
-    public static Configuration getConfig(boolean isMultiTenant, String accountName){
-        String configDir = getConfigDir(isMultiTenant,accountName);
+    public static Configuration getConfig(boolean isMultiTenant, String accountId){
+        String configDir = getConfigDir(isMultiTenant,accountId);
         String trapSenderHome = getTrapSenderHome();
         String configFile = trapSenderHome + configDir + CONFIG_FILENAME;
         Configuration config = YmlReader.readFromFile(configFile, Configuration.class);
         config.setIsMultiTenant(isMultiTenant);
-        config.setAccountName(accountName);
+        config.setAccountName(accountId);
         if(validateEncryptionFields(config)) {
             decryptPasswords(config);
         }
