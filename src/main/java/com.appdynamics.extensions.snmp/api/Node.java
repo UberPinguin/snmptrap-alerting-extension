@@ -1,5 +1,8 @@
 package com.appdynamics.extensions.snmp.api;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+
 import java.util.List;
 
 public class Node {
@@ -50,6 +53,9 @@ public class Node {
     }
 
     public String getTierName() {
+        if(Strings.isNullOrEmpty(tierName)){
+            return "";
+        }
         return tierName;
     }
 
@@ -66,6 +72,9 @@ public class Node {
     }
 
     public String getMachineName() {
+        if(Strings.isNullOrEmpty(machineName)){
+            return "";
+        }
         return machineName;
     }
 
@@ -106,6 +115,9 @@ public class Node {
     }
 
     public List<String> getIpAddresses() {
+        if(ipAddresses == null){
+            return Lists.newArrayList();
+        }
         return ipAddresses;
     }
 
