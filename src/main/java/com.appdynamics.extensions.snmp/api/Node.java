@@ -3,8 +3,13 @@ package com.appdynamics.extensions.snmp.api;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.List;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Node {
 
     private int id;
@@ -18,6 +23,9 @@ public class Node {
     private boolean machineAgentPresent;
     private boolean appAgentPresent;
     private String appAgentVersion;
+
+    @XmlElementWrapper(name="ipAddresses")
+    @XmlElement(name="ipAddress")
     private List<String> ipAddresses;
 
     public int getId() {
@@ -116,7 +124,7 @@ public class Node {
 
     public List<String> getIpAddresses() {
         if(ipAddresses == null){
-            return Lists.newArrayList();
+            ipAddresses = Lists.newArrayList();
         }
         return ipAddresses;
     }

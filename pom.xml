@@ -6,7 +6,7 @@
 
     <groupId>com.appdynamics.extensions</groupId>
     <artifactId>snmp-trap-alert</artifactId>
-    <version>3.1.1</version>
+    <version>3.2.0</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -47,6 +47,12 @@
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
             <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
         </dependency>
         <!--<dependency>
             <groupId>org.snmp4j</groupId>
