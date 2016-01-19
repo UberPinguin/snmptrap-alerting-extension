@@ -47,12 +47,12 @@ public class SNMPDataBuilder {
         snmpData.setSubtype(" ");
         snmpData.setSummary(violationEvent.getSummaryMessage());
         if (config.getController() != null) {
-            snmpData.setLink(getAlertUrl(config.getController().getHost(), Integer.toString(config.getController().getPort()), violationEvent));
+            snmpData.setLink(CommonUtils.getAlertUrl(config.getController().getHost(), Integer.toString(config.getController().getPort()), violationEvent));
         }
         snmpData.setTag(violationEvent.getTag());
         snmpData.setEventType(violationEvent.getEventType());
         snmpData.setIncidentId(violationEvent.getIncidentID());
-        snmpData.setAccountId(violationEvent.getAccountId());
+        snmpData.setAccountId(CommonUtils.cleanUpAccountInfo(violationEvent.getAccountId()));
         //get BTs
         List<String> bts = getBTs(violationEvent);
         snmpData.setTxns( JOIN_ON_COMMA.join((bts)));
@@ -226,41 +226,15 @@ public class SNMPDataBuilder {
         snmpData.setSubtype(" ");
         snmpData.setSummary(getSummary(otherEvent));
         if(config.getController() != null) {
-            snmpData.setLink(getAlertUrl(config.getController().getHost(), Integer.toString(config.getController().getPort()), otherEvent));
+            snmpData.setLink(CommonUtils.getAlertUrl(config.getController().getHost(), Integer.toString(config.getController().getPort()), otherEvent));
         }
         snmpData.setTag(otherEvent.getTag());
         snmpData.setEventType("NON-POLICY-EVENT");
         snmpData.setIncidentId(otherEvent.getEventNotificationId());
+        snmpData.setAccountId(CommonUtils.cleanUpAccountInfo(otherEvent.getAccountId()));
         return snmpData;
     }
 
-
-
-
-    private String getAlertUrl(String controllerHost,String controllerPort, Event event) {
-        String url = event.getDeepLinkUrl();
-        if(Strings.isNullOrEmpty(controllerHost) || Strings.isNullOrEmpty(controllerPort)){
-            logger.debug("ControllerHost and/or ControllerPort not configured correctly.");
-            return url;
-        }
-        int startIdx = 0;
-        if(url.startsWith("http://")){
-            startIdx = "http://".length();
-        }
-        else if(url.startsWith("https://")){
-            startIdx = "https://".length();
-        }
-        int endIdx = url.indexOf("/",startIdx + 1);
-        String toReplace = url.substring(0,endIdx);
-        String alertUrl = url.replaceFirst(toReplace,controllerHost + ":" + controllerPort);
-        if(event instanceof HealthRuleViolationEvent){
-            alertUrl += ((HealthRuleViolationEvent) event).getIncidentID();
-        }
-        else{
-            alertUrl += ((OtherEvent) event).getEventSummaries().get(0).getEventSummaryId();
-        }
-        return alertUrl;
-    }
 
 
     private List<String> getNodes(HealthRuleViolationEvent violationEvent) {

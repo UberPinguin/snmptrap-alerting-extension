@@ -1,9 +1,13 @@
 package com.appdynamics.extensions.api;
 
+import com.appdynamics.extensions.alerts.customevents.Event;
+import com.appdynamics.extensions.alerts.customevents.HealthRuleViolationEvent;
+import com.appdynamics.extensions.alerts.customevents.OtherEvent;
 import com.appdynamics.extensions.snmp.api.Node;
 import com.appdynamics.extensions.snmp.api.NodeWrapper;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,6 +33,7 @@ public class ServiceImplTest {
         //System.out.println("RESULT:" +   nodeWrapper.getNodes().get(0).getIpAddresses());
         org.junit.Assert.assertTrue(nodeWrapper.getNodes().get(0).getIpAddresses().get(0).equals("10.111.176.170"));
     }
+
 
 
     @Test
@@ -60,5 +65,29 @@ public class ServiceImplTest {
         return Lists.transform(allNodes, ipAddressFunc);
     }
 
+
+    private String getAlertUrl(String controllerHost,String controllerPort, Event event) {
+        String url = event.getDeepLinkUrl();
+        if(Strings.isNullOrEmpty(controllerHost) || Strings.isNullOrEmpty(controllerPort)){
+            return url;
+        }
+        int startIdx = 0;
+        if(url.startsWith("http://")){
+            startIdx = "http://".length();
+        }
+        else if(url.startsWith("https://")){
+            startIdx = "https://".length();
+        }
+        int endIdx = url.indexOf("/",startIdx + 1);
+        String toReplace = url.substring(startIdx,endIdx);
+        String alertUrl = url.replaceFirst(toReplace,controllerHost + ":" + controllerPort);
+        if(event instanceof HealthRuleViolationEvent){
+            alertUrl += ((HealthRuleViolationEvent) event).getIncidentID();
+        }
+        else{
+            alertUrl += ((OtherEvent) event).getEventSummaries().get(0).getEventSummaryId();
+        }
+        return alertUrl;
+    }
 
 }
