@@ -13,8 +13,8 @@ public class CommonUtilsTest {
         HealthRuleViolationEvent event = new HealthRuleViolationEvent();
         event.setDeepLinkUrl("https://localhost:8080/#location=APP_INCIDENT_DETAIL&incident=");
         event.setIncidentID("12345");
-        String url = CommonUtils.getAlertUrl("appd-pre.ei.eventsgslb.ibm.com","8181",event);
-        Assert.assertTrue(url.equalsIgnoreCase("https://appd-pre.ei.eventsgslb.ibm.com:8181/#location=APP_INCIDENT_DETAIL&incident=12345"));
+        String url = CommonUtils.getAlertUrl(event);
+        Assert.assertTrue(url.equalsIgnoreCase("https://localhost:8080/#location=APP_INCIDENT_DETAIL&incident=12345"));
     }
 
     @Test

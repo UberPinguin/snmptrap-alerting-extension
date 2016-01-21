@@ -53,6 +53,11 @@ snmpVersion: 2
 encryptionKey: "helloWorld"
 
 ######AppD information start##################
+
+
+#The controller information below is MANDATORY. The only reason this is needed is because
+#the custom actions don't get enough context like the Machine Names, IP addresses of the nodes
+#that are affected. Using the below info, the extension makes an effort to get the details from REST APIs.
 controller:
   host: "mywindows.appdynamics.com"
   port: 8090

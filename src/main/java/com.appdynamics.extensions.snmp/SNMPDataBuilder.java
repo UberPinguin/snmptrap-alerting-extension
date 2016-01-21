@@ -47,7 +47,7 @@ public class SNMPDataBuilder {
         snmpData.setSubtype(" ");
         snmpData.setSummary(violationEvent.getSummaryMessage());
         if (config.getController() != null) {
-            snmpData.setLink(CommonUtils.getAlertUrl(config.getController().getHost(), Integer.toString(config.getController().getPort()), violationEvent));
+            snmpData.setLink(CommonUtils.getAlertUrl(violationEvent));
         }
         snmpData.setTag(violationEvent.getTag());
         snmpData.setEventType(violationEvent.getEventType());
@@ -226,7 +226,7 @@ public class SNMPDataBuilder {
         snmpData.setSubtype(" ");
         snmpData.setSummary(getSummary(otherEvent));
         if(config.getController() != null) {
-            snmpData.setLink(CommonUtils.getAlertUrl(config.getController().getHost(), Integer.toString(config.getController().getPort()), otherEvent));
+            snmpData.setLink(CommonUtils.getAlertUrl(otherEvent));
         }
         snmpData.setTag(otherEvent.getTag());
         snmpData.setEventType("NON-POLICY-EVENT");
