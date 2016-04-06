@@ -28,4 +28,9 @@
 	<appender-ref ref="ConsoleAppender"/>
   </logger>
 
+  <root>
+      <priority value="error"/>
+      <appender-ref ref="RollingFileAppender"/>
+  </root>
+
 </log4j:configuration>

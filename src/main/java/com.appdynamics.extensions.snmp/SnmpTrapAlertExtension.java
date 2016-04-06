@@ -53,6 +53,7 @@ public class SnmpTrapAlertExtension {
             }
             boolean isMultiTenant = Boolean.getBoolean(MULTI_TENANCY);
             Event event = eventBuilder.build(args);
+
             Configuration config = ConfigLoader.getConfig(isMultiTenant, event.getAccountId());
             logger.info("Configuration Loaded.");
             logger.debug("Config passed => " + config);
