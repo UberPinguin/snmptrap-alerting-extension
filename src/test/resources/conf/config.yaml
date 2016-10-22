@@ -52,7 +52,9 @@ snmpVersion: 2
 
 encryptionKey: "helloWorld"
 
+
 ######AppD information start##################
+fetchMachineInfoFromApi: false
 
 
 #The controller information below is MANDATORY. The only reason this is needed is because

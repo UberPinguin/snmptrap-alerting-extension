@@ -16,6 +16,7 @@ public class Configuration {
     private String encryptionKey;
     private String accountName;
     private boolean isMultiTenant;
+    private boolean fetchMachineInfoFromApi;
     private ControllerConfig controller;
 
 
@@ -97,6 +98,14 @@ public class Configuration {
 
     public void setController(ControllerConfig controller) {
         this.controller = controller;
+    }
+
+    public boolean isFetchMachineInfoFromApi() {
+        return fetchMachineInfoFromApi;
+    }
+
+    public void setFetchMachineInfoFromApi(boolean fetchMachineInfoFromApi) {
+        this.fetchMachineInfoFromApi = fetchMachineInfoFromApi;
     }
 
     @Override

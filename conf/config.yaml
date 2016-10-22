@@ -59,6 +59,7 @@ snmpVersion: 2
 
 
 ######AppD information start##################
+fetchMachineInfoFromApi: false
 
 #The controller information below is MANDATORY. The only reason this is needed is because
 #the custom actions don't get enough context like the Machine Names, IP addresses of the nodes

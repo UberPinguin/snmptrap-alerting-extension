@@ -5,18 +5,14 @@ import com.appdynamics.extensions.alerts.customevents.*;
 import com.appdynamics.extensions.snmp.api.*;
 import com.appdynamics.extensions.snmp.config.Configuration;
 import com.appdynamics.extensions.snmp.config.ControllerConfig;
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
-import sun.security.krb5.Config;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class SNMPDataBuilder {
 
@@ -65,46 +61,23 @@ public class SNMPDataBuilder {
         snmpData.setTiers( JOIN_ON_COMMA.join((tiers)));
 
         //get ip addresses and populate ip addresses, machine names
-        populateOtherProps(violationEvent, nodes, tiers, snmpData);
-
+        if(config.isFetchMachineInfoFromApi()){
+            populateMachineInfo(violationEvent, nodes, tiers, snmpData);
+        }
         return snmpData;
     }
 
-
-
-    // super ugly logic for figuring out where to pull ipaddress and machien name information and while getting that information
-    // populating the node and tier info if not available
-    private void populateOtherProps(HealthRuleViolationEvent violationEvent, List<String> nodes, List<String> tiers, ADSnmpData snmpData) {
+    //There is a possibility that we may not have enough tier and node context in custom action.
+    //This is because of a bug in controller. The controller should at least send tier level info.
+    //It is not feasible to get just add all nodes and tiers if we are not able to resolve because that
+    //list could be huge.
+    private void populateMachineInfo(HealthRuleViolationEvent violationEvent, List<String> nodes, List<String> tiers, ADSnmpData snmpData) {
         //get all nodes in this application
+        logger.debug("Tiers : " + tiers);
+        logger.debug("Nodes : " + nodes);
         List<Node> allNodes = getAllNodesInApplication(violationEvent);
         Map<String,Node> nodeMap = createNodeMap(allNodes);
-        Map<String,List<Node>> tierMap = createTierMap(allNodes);
-        //There is a possibility that we may not have enough tier and node context in custom action.
-        //This is because of a bug in controller. The controller should at least tier level info.
-        //If both node and tier info is unavailable, we add all nodes,machines and tiers in the trap
-        if(nodes.isEmpty() && tiers.isEmpty()){
-            snmpData.setNodes( JOIN_ON_COMMA.join((getNodeNames(allNodes))));
-            snmpData.setMachines(JOIN_ON_COMMA.join((getMachineNames(allNodes))));
-            snmpData.setTiers(JOIN_ON_COMMA.join((tierMap.keySet())));
-            snmpData.setIpAddresses(JOIN_ON_COMMA.join((getIPAddresses(allNodes))));
-        }
-        else if(nodes.isEmpty() && !tiers.isEmpty()){
-            List<String> tierNodes = Lists.newArrayList();
-            List<String> machines = Lists.newArrayList();
-            List<String> ipAddresses = Lists.newArrayList();
-            for(String tier : tiers){
-                List<Node> nodesFromATier = tierMap.get(tier);
-                if(nodesFromATier != null){
-                    tierNodes.addAll(getNodeNames(nodesFromATier));
-                    machines.addAll(getMachineNames(nodesFromATier));
-                    ipAddresses.addAll(getIPAddresses(nodesFromATier));
-                }
-            }
-            snmpData.setNodes(JOIN_ON_COMMA.join(tierNodes));
-            snmpData.setMachines(JOIN_ON_COMMA.join(machines));
-            snmpData.setIpAddresses(JOIN_ON_COMMA.join(ipAddresses));
-        }
-        else if(!nodes.isEmpty() && tiers.isEmpty()){
+        if(!nodes.isEmpty() && tiers.isEmpty()){
             List<String> tiersForNode = Lists.newArrayList();
             List<String> machines = Lists.newArrayList();
             List<String> ipAddresses = Lists.newArrayList();
@@ -133,54 +106,10 @@ public class SNMPDataBuilder {
             snmpData.setMachines(JOIN_ON_COMMA.join(machines));
             snmpData.setIpAddresses(JOIN_ON_COMMA.join(ipAddresses));
         }
-
-    }
-
-    private List<String> getIPAddresses(List<Node> allNodes) {
-        Function<Node,String> ipAddressFunc = new Function<Node, String>() {
-            @Override
-            public String apply(Node input) {
-                if(input.getIpAddresses() != null) {
-                    return JOIN_ON_COMMA.join(input.getIpAddresses());
-                }
-                return "";
-            }
-        };
-        return Lists.transform(allNodes,ipAddressFunc);
-    }
-
-    private List<String> getMachineNames(List<Node> allNodes) {
-        Function<Node,String> machineNameFunc = new Function<Node, String>() {
-            @Override
-            public String apply(Node input) {
-                return input.getMachineName();
-            }
-        };
-        return Lists.transform(allNodes,machineNameFunc);
-    }
-
-    private List<String> getNodeNames(List<Node> allNodes) {
-        Function<Node,String> nodeNameFunction = new Function<Node, String>() {
-            @Override
-            public String apply(Node input) {
-                return input.getName();
-            }
-        };
-
-        return Lists.transform(allNodes,nodeNameFunction);
-    }
-
-    private Map<String, List<Node>> createTierMap(List<Node> allNodes) {
-        Map<String,List<Node>> tierMap = Maps.newHashMap();
-        for(Node node : allNodes){
-            List<Node> nodesInTier = tierMap.get(node.getTierName());
-            if(nodesInTier == null){
-                nodesInTier = Lists.newArrayList();
-                tierMap.put(node.getTierName(),nodesInTier);
-            }
-            nodesInTier.add(node);
+        else {
+            logger.debug("More information on the tiers and nodes cannot be resolved");
         }
-        return tierMap;
+
     }
 
     private Map<String, Node> createNodeMap(List<Node> allNodes) {
