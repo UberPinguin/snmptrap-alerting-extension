@@ -11,25 +11,33 @@ IMPORTS
 		FROM SNMPv2-TC
 	OBJECT-GROUP,
 	NOTIFICATION-GROUP
-		FROM SNMPv2-CONF;
+		FROM SNMPv2-CONF
+	sysUpTime,
+	snmpTrapOID
+		FROM SNMPv2-MIB
+	snmpTrapAddress
+		FROM SNMP-COMMUNITY-MIB;
 
-AppDynamics OBJECT IDENTIFIER ::= { enterprises 40684}
-
-AppDynamics1 OBJECT IDENTIFIER ::= { AppDynamics 1 }
-
-appdMIB MODULE-IDENTITY
-	LAST-UPDATED "201209010000Z"	-- Sep 1, 2012 12:00:00 AM
+appDynamics MODULE-IDENTITY
+	LAST-UPDATED "201612290000Z"	-- Dec 29, 2016 12:00:00 AM
 	ORGANIZATION "AppDynamics Inc"
 	CONTACT-INFO
 		"Not telling"
 	DESCRIPTION
 		"AppDynamics Trap MIB"
-	REVISION "201209010000Z"	-- Sep 1, 2012 12:00:00 AM
+	REVISION "201612290000Z"	-- Dec 29, 2016 12:00:00 AM
 	DESCRIPTION
 		"First Release - Only One OID"
-	-- 1.3.6.1.4.1.40684.1.1
-	::= { AppDynamics1 1 }
+	-- 1.3.6.1.4.1.40684
+	::= { enterprises 40684 }
 
+appDynamics1 OBJECT IDENTIFIER
+	-- 1.3.6.1.4.1.40684.1
+	::= { appDynamics 1 }
+
+appdMIB OBJECT IDENTIFIER
+	-- 1.3.6.1.4.1.40684.1.1
+	::= { appDynamics1 1 }
 
 appd OBJECT IDENTIFIER
 	-- 1.3.6.1.4.1.40684.1.1.1
@@ -86,6 +94,9 @@ appdEventObjects OBJECT-GROUP
 
 event NOTIFICATION-TYPE
 	OBJECTS {
+		sysUpTime,
+		snmpTrapOID,
+		snmpTrapAddress,
 		application,
 		triggeredBy,
 		nodes,
