@@ -158,7 +158,7 @@ public class SNMPDataBuilder {
             snmpData.setLink(CommonUtils.getAlertUrl(otherEvent));
         }
         snmpData.setTag(otherEvent.getTag());
-        snmpData.setEventType("NON-POLICY-EVENT");
+        snmpData.setEventType("NON_POLICY_EVENT");
         snmpData.setIncidentId(otherEvent.getEventNotificationId());
         snmpData.setAccountId(CommonUtils.cleanUpAccountInfo(otherEvent.getAccountId()));
         return snmpData;
