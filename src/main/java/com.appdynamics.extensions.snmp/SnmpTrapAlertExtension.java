@@ -118,12 +118,24 @@ public class SnmpTrapAlertExtension {
      *
      */
     private String getOID(Event event) {
-        if(event instanceof OtherEvent){
-            return TRAP_OID_07;
+        String TRAP_OID = TRAP_OID_01;
+        if(event instanceof OtherEvent) {
+            switch (config.getMibVersion()) {
+                case 1:
+                    TRAP_OID = TRAP_OID_01;
+                    break;
+                case 2:
+                    TRAP_OID = TRAP_OID_03;
+                    break;
+                case 3:
+                    TRAP_OID = TRAP_OID_07;
+                    break;
+            }
+            return TRAP_OID;
         }
+
         HealthRuleViolationEvent violationEvent = (HealthRuleViolationEvent) event;
         String eventType = violationEvent.getEventType();
-        String TRAP_OID = TRAP_OID_01;
         switch (config.getMibVersion()) {
             case 1:
                 TRAP_OID = TRAP_OID_01;
