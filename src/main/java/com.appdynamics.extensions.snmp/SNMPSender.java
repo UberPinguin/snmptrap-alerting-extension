@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.appdynamics.extensions.snmp.CommonUtils.getSysUptime;
+
 public class SNMPSender {
 
     private static Logger logger = Logger.getLogger(SNMPSender.class);
@@ -92,13 +94,17 @@ public class SNMPSender {
         comTarget.setRetries(2);
         comTarget.setTimeout(5000);
 
+        TimeTicks sysUpTime = new TimeTicks();
+        sysUpTime.fromMilliseconds(getSysUptime());
+
         PDUv1 pdu = new PDUv1();
         pdu.setType(PDU.V1TRAP);
         pdu.setEnterprise(new OID(trapOid));
         pdu.setGenericTrap(PDUv1.ENTERPRISE_SPECIFIC);
         pdu.setSpecificTrap(1);
         pdu.setAgentAddress(new IpAddress(trapHost));
-        pdu.add(new VariableBinding(SnmpConstants.sysUpTime,  new OctetString(new Date().toString())));
+
+        pdu.add(new VariableBinding(SnmpConstants.sysUpTime,  sysUpTime));
         pdu.add(new VariableBinding(SnmpConstants.snmpTrapOID, new OID(trapOid)));
         pdu.add(new VariableBinding(SnmpConstants.snmpTrapAddress, new IpAddress(trapHost)));
 
@@ -149,8 +155,11 @@ public class SNMPSender {
         comTarget.setRetries(2);
         comTarget.setTimeout(5000);
 
+        TimeTicks sysUpTime = new TimeTicks();
+        sysUpTime.fromMilliseconds(getSysUptime());
+
         PDU pdu = new PDU();
-        pdu.add(new VariableBinding(SnmpConstants.sysUpTime,  new OctetString(new Date().toString())));
+        pdu.add(new VariableBinding(SnmpConstants.sysUpTime,  sysUpTime));
         pdu.add(new VariableBinding(SnmpConstants.snmpTrapOID, new OID(trapOid)));
         pdu.add(new VariableBinding(SnmpConstants.snmpTrapAddress, new IpAddress(trapHost)));
 
@@ -282,9 +291,12 @@ public class SNMPSender {
         usrTarget.setSecurityName(new OctetString(config.getUsername()));
         usrTarget.setTimeout(5000);
 
+        TimeTicks sysUpTime = new TimeTicks();
+        sysUpTime.fromMilliseconds(getSysUptime());
+
         PDU pdu = new ScopedPDU();
         pdu.setType(PDU.NOTIFICATION);
-        pdu.add(new VariableBinding(SnmpConstants.sysUpTime,  new OctetString(new Date().toString())));
+        pdu.add(new VariableBinding(SnmpConstants.sysUpTime,  sysUpTime));
         pdu.add(new VariableBinding(SnmpConstants.snmpTrapOID, new OID(trapOid)));
         pdu.add(new VariableBinding(SnmpConstants.snmpTrapAddress, new IpAddress(trapHost)));
 
