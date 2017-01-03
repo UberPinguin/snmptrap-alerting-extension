@@ -18,26 +18,22 @@ IMPORTS
 	snmpTrapAddress
 		FROM SNMP-COMMUNITY-MIB;
 
-appDynamics MODULE-IDENTITY
-	LAST-UPDATED "201612290000Z"	-- Dec 29, 2016 12:00:00 AM
+appdMIB MODULE-IDENTITY
+	LAST-UPDATED "201701030000Z"    -- January 3, 2016 12:00:00 AM
 	ORGANIZATION "AppDynamics Inc"
 	CONTACT-INFO
 		"Not telling"
 	DESCRIPTION
 		"AppDynamics Trap MIB"
-	REVISION "201612290000Z"	-- Dec 29, 2016 12:00:00 AM
+	REVISION "201701030000Z"    -- January 3, 2016 12:00:00 AM
 	DESCRIPTION
 		"First Release - Only One OID"
-	-- 1.3.6.1.4.1.40684
-	::= { enterprises 40684 }
-
-appDynamics1 OBJECT IDENTIFIER
-	-- 1.3.6.1.4.1.40684.1
-	::= { appDynamics 1 }
-
-appdMIB OBJECT IDENTIFIER
 	-- 1.3.6.1.4.1.40684.1.1
 	::= { appDynamics1 1 }
+
+appDynamics OBJECT IDENTIFIER ::= { enterprises 40684}
+
+appDynamics1 OBJECT IDENTIFIER ::= { appDynamics 1 }
 
 appd OBJECT IDENTIFIER
 	-- 1.3.6.1.4.1.40684.1.1.1
