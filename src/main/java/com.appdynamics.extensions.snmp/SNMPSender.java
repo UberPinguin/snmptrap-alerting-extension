@@ -102,6 +102,16 @@ public class SNMPSender {
         pdu.add(new VariableBinding(SnmpConstants.snmpTrapOID, new OID(trapOid)));
         pdu.add(new VariableBinding(SnmpConstants.snmpTrapAddress, new IpAddress(trapHost)));
 
+        if (snmpData.getMachines() == null || "".equals(snmpData.getMachines()) || " ".equals(snmpData.getMachines())) {
+            snmpData.setMachines(" ");
+        }
+        if (snmpData.getTiers() == null || "".equals(snmpData.getTiers()) || " ".equals(snmpData.getTiers())) {
+            snmpData.setTiers(" ");
+        }
+        if (snmpData.getIpAddresses() == null || "".equals(snmpData.getIpAddresses()) || " ".equals(snmpData.getIpAddresses())) {
+            snmpData.setIpAddresses(" ");
+        }
+
         for (Field field : snmpData.getClass().getDeclaredFields())
         {
             if(field.get(snmpData) != null) {
@@ -116,15 +126,7 @@ public class SNMPSender {
                 }
             }
         }
-        if (snmpData.getMachines() == null || "".equals(snmpData.getMachines()) || " ".equals(snmpData.getMachines())) {
-            pdu.add(new VariableBinding(new OID(lookUp.getOID("machines")), new OctetString(" ")));
-        }
-        if (snmpData.getTiers() == null || "".equals(snmpData.getTiers()) || " ".equals(snmpData.getTiers())) {
-            pdu.add(new VariableBinding(new OID(lookUp.getOID("tiers")), new OctetString(" ")));
-        }
-        if (snmpData.getIpAddresses() == null || "".equals(snmpData.getIpAddresses()) || " ".equals(snmpData.getIpAddresses())) {
-            pdu.add(new VariableBinding(new OID(lookUp.getOID("ipAddresses")), new OctetString(" ")));
-        }
+
         Snmp snmp = new Snmp(transport);
         snmp.send(pdu, comTarget);
         snmp.close();
