@@ -47,12 +47,12 @@ snmpVersion: 2
 #policies for snmp v3.
 #####################################################################################
 #snmpV3Configuration:
-# securityLevel:
-# username: ""
-# password: ""
-# authProtocol: ""
-# privProtocol: ""
-# privProtocolPassword: ""
+#  securityLevel:
+#  username: ""
+#  password: ""
+#  authProtocol: ""
+#  privProtocol: ""
+#  privProtocolPassword: ""
 
 ######SNMP Trap information end##############
 
