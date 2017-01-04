@@ -63,7 +63,12 @@ public class SNMPDataBuilder {
         //get ip addresses and populate ip addresses, machine names
         if(config.isFetchMachineInfoFromApi()){
             populateMachineInfo(violationEvent, nodes, tiers, snmpData);
+        } else {
+            snmpData.setMachines(" ");
+            snmpData.setTiers(" ");
+            snmpData.setIpAddresses(" ");
         }
+
         return snmpData;
     }
 
@@ -147,8 +152,6 @@ public class SNMPDataBuilder {
         snmpData.setTriggeredBy(otherEvent.getEventNotificationName());
         snmpData.setNodes(" ");
         snmpData.setTxns(" ");
-        snmpData.setMachines(" ");
-        snmpData.setTiers(" ");
         snmpData.setEventTime(otherEvent.getEventNotificationTime());
         snmpData.setSeverity(otherEvent.getSeverity());
         snmpData.setType(getTypes(otherEvent));

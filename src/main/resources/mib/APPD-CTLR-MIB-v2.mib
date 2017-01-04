@@ -147,8 +147,6 @@ nonPolicyEvent NOTIFICATION-TYPE
 		triggeredBy,
 		nodes,
 		txns,
-		machines,
-		tiers,
 		eventTime,
 		severity,
 		type,
@@ -157,7 +155,6 @@ nonPolicyEvent NOTIFICATION-TYPE
 		link,
 		tag,
                 eventType,
-                ipAddresses,
                 incidentId,
                  accountId}
 	STATUS  current
